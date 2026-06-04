@@ -19,6 +19,7 @@
           stacked
           layout={config.layout}
           series={config.bars}
+          ratio={config.ratio}
           xLabel={firstBar.xLabel}
           yLabel={firstBar.yLabel}
           yTickCount={config.yTickCount}
@@ -40,6 +41,7 @@
             color={bar.color}
             colorMap={config.colorMap}
             layout={config.layout}
+            ratio={config.ratio}
             xLabel={bar.xLabel}
             yLabel={bar.yLabel}
             yTickCount={config.yTickCount}

@@ -21,6 +21,7 @@ export const keys: Record<
     footnotes: string[]
     stacked?: boolean
     layout?: 'vertical' | 'horizontal'
+    ratio?: ResponsiveCount
     yDomain?: [min?: number, max?: number]
     yTickCount?: ResponsiveCount
     xDate?: boolean
@@ -41,6 +42,7 @@ export const keys: Record<
     layout: 'horizontal',
     yDomain: [0, 500],
     yTickCount: [10, 5],
+    ratio: 1.3,
     bars: [
       {
         name: '鄰里（長）補助',
@@ -84,6 +86,7 @@ export const keys: Record<
     layout: 'vertical',
     yDomain: [0, 200],
     yTickCount: 10,
+    ratio: 1.3,
     colorMap: {
       '9': 'var(--neutral-gray-400)',
       '10': 'var(--neutral-gray-400)',
