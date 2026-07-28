@@ -1,13 +1,7 @@
 <svelte:options customElement={{ tag: 'twreporter-table' }} />
 
-<script module lang="ts">
-  import { QueryClient } from '@tanstack/svelte-query'
-
-  const queryClient = new QueryClient()
-</script>
-
 <script lang="ts">
-  import { QueryClientProvider } from '@tanstack/svelte-query'
+  import { QueryClient, QueryClientProvider } from '@tanstack/svelte-query'
   import Table from './Table.svelte'
 
   type TableElementProps = {
@@ -16,8 +10,11 @@
   }
 
   let { src, config }: TableElementProps = $props()
+  const queryClient = new QueryClient()
 </script>
 
-<QueryClientProvider client={queryClient}>
-  <Table {src} configUrl={config} />
-</QueryClientProvider>
+{#if src && config}
+  <QueryClientProvider client={queryClient}>
+    <Table {src} configUrl={config} />
+  </QueryClientProvider>
+{/if}

@@ -12,24 +12,28 @@
   const resolvedSrc = $derived(resolveUrl(src))
   const resolvedConfigUrl = $derived(resolveUrl(configUrl))
 
-  const csvQuery = createQuery(() => ({
-    queryKey: ['twreporter-table', 'csv', resolvedSrc],
-    enabled: resolvedSrc !== undefined,
-    queryFn: async ({ signal }) =>
-      parseCsv(await fetchText(resolvedSrc!, signal)),
-  }))
+  const tableQuery = createQuery(() => ({
+    queryKey: ['twreporter-table', resolvedSrc, resolvedConfigUrl] as const,
+    queryFn: async ({ signal }) => {
+      if (!resolvedSrc || !resolvedConfigUrl) {
+        throw new Error('Both table source and config URLs are required')
+      }
 
-  const configQuery = createQuery(() => ({
-    queryKey: ['twreporter-table', 'config', resolvedConfigUrl],
-    enabled: resolvedConfigUrl !== undefined,
-    queryFn: ({ signal }) => fetchJson(resolvedConfigUrl!, signal),
+      const [csvText, config] = await Promise.all([
+        fetchText(resolvedSrc, signal),
+        fetchJson(resolvedConfigUrl, signal),
+      ])
+
+      return { csv: parseCsv(csvText), config }
+    },
   }))
 
   const rows = $derived.by(() => {
-    if (!csvQuery.data || !configQuery.data) return undefined
+    if (!tableQuery.data) return undefined
 
-    const missingColumns = configQuery.data.columns.filter(
-      (column) => !csvQuery.data.headers.includes(column.key),
+    const { csv, config } = tableQuery.data
+    const missingColumns = config.columns.filter(
+      (column) => !csv.headers.includes(column.key),
     )
     if (missingColumns.length > 0) {
       console.error(
@@ -42,15 +46,11 @@
       return undefined
     }
 
-    return csvQuery.data.rows
+    return csv.rows
   })
 
   $effect(() => {
-    if (csvQuery.error) console.error(csvQuery.error)
-  })
-
-  $effect(() => {
-    if (configQuery.error) console.error(configQuery.error)
+    if (tableQuery.error) console.error(tableQuery.error)
   })
 
   $effect(() => {
@@ -125,8 +125,8 @@
   }
 </script>
 
-{#if configQuery.data && rows}
-  {@const tableConfig = configQuery.data}
+{#if tableQuery.data && rows}
+  {@const tableConfig = tableQuery.data.config}
   <Shell
     title={tableConfig.title}
     footnotes={tableConfig.footnotes}
