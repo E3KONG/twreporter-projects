@@ -1,12 +1,40 @@
 {
   "name": "shared",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "deploy": "gcloud storage cp ./src/* $BUCKET",
-    "deploy:staging": "BUCKET=gs://data-reporter-infographics/dev/node-graph RELEASE=staging pnpm run deploy",
+    "dev": "storybook dev -p 5173 --no-open",
+    "storybook:build": "storybook build",
+    "generate:schemas": "ts-json-schema-generator --path src/components/table/types.ts --type TableConfig --out dist/components/table/table.schema.json --no-top-ref --jsDoc extended",
+    "check-types": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json",
+    "build": "pnpm run check-types && pnpm run generate:schemas && vite build",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "deploy": "pnpm run build && gcloud storage cp --recursive ./dist/components/* $BUCKET/components/ --cache-control='public, max-age=31536000, immutable' && gcloud storage cp --recursive ./src/styles/* $BUCKET/styles/ --cache-control='no-cache'",
+    "deploy:staging": "BUCKET=gs://data-reporter-infographics/dev/shared RELEASE=staging pnpm run deploy",
     "deploy:prod": "BUCKET=gs://projects.twreporter.org/twreporter/ddd/shared RELEASE=production pnpm run deploy"
   },
   "packageManager": "pnpm@10.33.0",
   "devDependencies": {
-    "prettier": "^3.8.3"
+    "@storybook/addon-svelte-csf": "^5.1.2",
+    "@storybook/svelte-vite": "^10.5.3",
+    "@sveltejs/vite-plugin-svelte": "^7.1.1",
+    "@tsconfig/svelte": "^5.0.8",
+    "@types/node": "^26.1.1",
+    "@types/papaparse": "^5.5.2",
+    "prettier": "^3.8.3",
+    "prettier-plugin-svelte": "^3.5.1",
+    "storybook": "^10.5.3",
+    "svelte": "^5.55.5",
+    "svelte-check": "^4.7.3",
+    "ts-json-schema-generator": "^2.9.0",
+    "typescript": "^5.9.3",
+    "vite": "^8.0.11"
+  },
+  "dependencies": {
+    "@tanstack/svelte-query": "^6.1.28",
+    "modern-screenshot": "^4.7.0",
+    "papaparse": "^5.5.4"
   }
 }
