@@ -30,6 +30,9 @@ export function generateEmbedCode(
 
   return [
     `<script type="module" src="${scriptUrl}"></script>`,
+    `<link rel="stylesheet" href="https://projects.twreporter.org/twreporter/ddd/shared/embed.css">`,
+    `<div class="embed-code-container">`,
     `<${tagName}${serializedAttributes ? `\n${serializedAttributes}\n` : ''}></${tagName}>`,
+    `</div>`,
   ].join('\n')
 }
