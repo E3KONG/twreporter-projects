@@ -60,6 +60,12 @@ function generatedSchema(): Plugin {
 
 export default defineConfig({
   base: './',
+  // TanStack Query uses this Node-style guard for development-only warnings.
+  // Library builds do not replace it automatically, so leaving it in the
+  // browser bundle causes `process is not defined` at runtime.
+  define: {
+    'process.env.NODE_ENV': JSON.stringify('production'),
+  },
   plugins: [generatedSchema(), svelte({ emitCss: false })],
   build: {
     assetsInlineLimit: 0,
