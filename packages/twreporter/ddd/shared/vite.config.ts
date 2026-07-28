@@ -1,12 +1,14 @@
-import { readFile } from 'node:fs/promises'
-import { resolve } from 'node:path'
+import { mkdir, readFile, writeFile } from 'node:fs/promises'
+import { dirname, resolve } from 'node:path'
 import { svelte } from '@sveltejs/vite-plugin-svelte'
+import { createGenerator } from 'ts-json-schema-generator'
 import { defineConfig, type Plugin } from 'vite'
 
 const components = {
   table: {
     entry: 'src/components/table/index.ts',
     outputDirectory: 'components/table',
+    schemaType: 'TableConfig',
   },
 } as const
 
@@ -14,26 +16,35 @@ const timestamp = Date.now()
 const [name, component] = Object.entries(components)[0]
 const generatedSchemaPath = resolve(
   import.meta.dirname,
-  'dist/components/table/table.schema.json',
+  'dist',
+  component.outputDirectory,
+  `${name}.schema.json`,
 )
 
 function generatedSchema(): Plugin {
   let source: Buffer
   const schemaId = generatedSchemaPath + '?url&no-inline'
+  const schemaImportSuffix = `dist/${component.outputDirectory}/${name}.schema.json?url&no-inline`
 
   return {
     name: 'twreporter-generated-schema',
     enforce: 'pre',
     async configResolved(config) {
-      if (config.command === 'build')
-        source = await readFile(generatedSchemaPath)
+      if (config.command !== 'build') return
+
+      const schema = createGenerator({
+        path: resolve(import.meta.dirname, `src/components/${name}/types.ts`),
+        type: component.schemaType,
+        topRef: false,
+        jsDoc: 'extended',
+      }).createSchema(component.schemaType)
+
+      await mkdir(dirname(generatedSchemaPath), { recursive: true })
+      await writeFile(generatedSchemaPath, JSON.stringify(schema, null, 2))
+      source = await readFile(generatedSchemaPath)
     },
     resolveId(id) {
-      if (
-        id.endsWith('dist/components/table/table.schema.json?url&no-inline')
-      ) {
-        return schemaId
-      }
+      if (id.endsWith(schemaImportSuffix)) return schemaId
     },
     load(id) {
       if (id !== schemaId) return

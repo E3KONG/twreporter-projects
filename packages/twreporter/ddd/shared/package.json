@@ -6,9 +6,8 @@
   "scripts": {
     "dev": "storybook dev -p 5173 --no-open",
     "storybook:build": "storybook build",
-    "generate:schemas": "ts-json-schema-generator --path src/components/table/types.ts --type TableConfig --out dist/components/table/table.schema.json --no-top-ref --jsDoc extended",
     "check-types": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json",
-    "build": "pnpm run check-types && pnpm run generate:schemas && vite build",
+    "build": "pnpm run check-types && vite build",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "deploy": "pnpm run build && gcloud storage cp --recursive ./dist/components/* $BUCKET/components/ --cache-control='public, max-age=31536000, immutable' && gcloud storage cp --recursive ./src/styles/* $BUCKET/styles/ --cache-control='no-cache'",
