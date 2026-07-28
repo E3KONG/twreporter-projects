@@ -251,7 +251,7 @@
 
   th,
   td {
-    padding: 8px 12px;
+    padding: 10px 12px;
     border-right: 1px solid var(--neutral-gray-200);
     vertical-align: middle;
   }
@@ -262,13 +262,14 @@
   }
 
   th {
-    color: var(--neutral-gray-800);
-    font-weight: 700;
-    white-space: nowrap;
+    color: var(--neutral-gray-100);
+    font-weight: 500;
+    white-space: auto;
+    background-color: var(--chart-red-4);
   }
 
   td {
-    color: var(--neutral-gray-700);
+    color: var(--neutral-gray-800);
     white-space: pre-line;
   }
 
@@ -283,4 +284,4 @@
       padding: 6px 8px;
     }
   }
-</style>
+</style>

@@ -17,8 +17,16 @@ const config: StorybookConfig = {
       'import.meta.env.VITE_BUILD_TIMESTAMP': JSON.stringify(timestamp),
     }
 
+    config.server = {
+      ...config.server,
+      watch: {
+        ignored: ['**/local/**'],
+      },
+    }
+
     return config
   },
+  staticDirs: [{ from: '../local', to: '/local' }],
 }
 
 export default config
