@@ -7,10 +7,10 @@
     "dev": "storybook dev -p 5173 --no-open",
     "storybook:build": "storybook build",
     "check-types": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json",
-    "build": "pnpm run check-types && vite build",
+    "build": "pnpm run check-types && vite build && pnpm run storybook:build",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "deploy": "pnpm run build && gcloud storage cp --recursive ./dist/components/* $BUCKET/components/ --cache-control='public, max-age=31536000, immutable' && gcloud storage cp --recursive ./src/styles/* $BUCKET/styles/ --cache-control='no-cache'",
+    "deploy": "pnpm run build && gcloud storage cp --recursive ./dist/components/* $BUCKET/components/ --cache-control='public, max-age=31536000, immutable' && gcloud storage cp --recursive ./src/styles/* $BUCKET/styles/ --cache-control='no-cache' && gcloud storage cp --recursive ./storybook-static/* $BUCKET/storybook/ --cache-control='no-cache'",
     "deploy:staging": "BUCKET=gs://data-reporter-infographics/dev/shared RELEASE=staging pnpm run deploy",
     "deploy:prod": "BUCKET=gs://projects.twreporter.org/twreporter/ddd/shared RELEASE=production pnpm run deploy"
   },
