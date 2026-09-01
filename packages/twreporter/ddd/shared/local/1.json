@@ -1,0 +1,32 @@
+{
+  "$schema": "https://projects.twreporter.org/twreporter/ddd/shared/components/table/table.schema.json",
+  "title": "近年在台發生的指標性跨國鎮壓案",
+  "footnotes": [
+    "資料來源：司法院裁判書、地檢署起訴書、公開新聞資料",
+    "資料整理：許詩愷　｜　設計：江世民"
+  ],
+  "columns": [
+    {
+      "key": "事發年月",
+      "label": "年分",
+      "width": 1.5
+    },
+    {
+      "key": "當事人",
+      "label": "當事人",
+      "width": 1.5
+    },
+    {
+      "key": "跨國鎮壓樣態",
+      "label": "跨國鎮壓樣態",
+      "width": 1.8
+    },
+    {
+      "key": "結果",
+      "label": "結果",
+      "width": 4.5
+    }
+  ],
+  "mobileWidth": 150,
+  "wide": true
+}

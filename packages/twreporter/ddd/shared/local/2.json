@@ -1,0 +1,37 @@
+{
+  "$schema": "https://projects.twreporter.org/twreporter/ddd/shared/components/table/table.schema.json",
+  "title": "2020年後，多名海外港人親友遭香港國安帶走",
+  "footnotes": [
+    "資料來源：公開新聞資料",
+    "資料整理：謝馥伊　｜　設計：江世民"
+  ],
+  "columns": [
+    {
+      "key": "事發時間",
+      "label": "事發時間",
+      "width": 0.4
+    },
+    {
+      "key": "海外港人",
+      "label": "遭通緝的海外港人",
+      "width": 0.35
+    },
+    {
+      "key": "背景",
+      "label": "背景",
+      "width": 0.9
+    },
+    {
+      "key": "香港國安帶走的親友",
+      "label": "香港國安帶走的親友",
+      "width": 0.6
+    },
+    {
+      "key": "事件後續",
+      "label": "事件後續",
+      "width": 0.55
+    }
+  ],
+  "mobileWidth": 150,
+  "wide": true
+}

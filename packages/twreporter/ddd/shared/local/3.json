@@ -1,0 +1,21 @@
+{
+  "$schema": "https://projects.twreporter.org/twreporter/ddd/shared/components/table/table.schema.json",
+  "title": "各國「反制跨國鎮壓」相關法制推動情況",
+  "footnotes": [
+    "資料來源：各國政府立法、司法機關",
+    "資料整理：許詩愷　｜　設計：江世民"
+  ],
+  "columns": [
+    {
+      "key": "國家",
+      "label": "國家",
+      "width": 0.125  
+    },
+    {
+      "key": "相關法制",
+      "label": "相關法制",
+      "width": 0.8
+    }
+  ],
+  "mobileWidth": 100
+}
